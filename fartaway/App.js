@@ -1,38 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+// import 'expo';
+import React from 'react';
+import { Alert, StyleSheet, Text, View, Button } from 'react-native';
+import Sound from 'react-native-sound';
+// import Pusher from 'pusher-js/react-native';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+// Pusher.logToConsole = true;
+// var pusher = new Pusher('05e72dc56935d81774f5', {
+//   cluster: 'eu',
+//   encrypted: true
+// });
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+// var channel = pusher.subscribe('my-channel');
+// channel.bind('my-event', function(data) {
+//   alert(data.message);
+// });
 
-type Props = {};
-export default class App extends Component<Props> {
+const fartInfo = {
+  isRequire: true,
+  url: require('./assets/fart.mp3')
+  // url: 'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+}
+
+function playSound(testInfo) {
+
+  const callback = (error, sound) => {
+    if (error) {
+      Alert.alert('error', error.message);
+      return;
+    }
+    sound.play(() => {
+      // Release when it's done so we're not using up resources
+      sound.release();
+    });
+  };
+
+  // If the audio is a 'require' then the second parameter must be the callback.
+  if (testInfo.isRequire) {
+  const sound = new Sound(testInfo.url, error => callback(error, sound));
+  } else {
+    const sound = new Sound(testInfo.url, testInfo.basePath, error => callback(error, sound));
+  }
+}
+
+
+
+export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    Sound.setCategory('Playback');
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={() => {
+              return playSound(fartInfo, this);
+            }}
+            title="fart-fart-away!"
+          />
+        </View>
+        <Text style={styles.textColor}>press and be amazed</Text>
       </View>
     );
   }
@@ -41,18 +71,11 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#123',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  textColor: {
+    color: 'yellow'
+  }
 });
