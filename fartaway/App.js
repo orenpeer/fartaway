@@ -2,18 +2,6 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, View, Button } from 'react-native';
 import Sound from 'react-native-sound';
-// import Pusher from 'pusher-js/react-native';
-
-// Pusher.logToConsole = true;
-// var pusher = new Pusher('05e72dc56935d81774f5', {
-//   cluster: 'eu',
-//   encrypted: true
-// });
-
-// var channel = pusher.subscribe('my-channel');
-// channel.bind('my-event', function(data) {
-//   alert(data.message);
-// });
 
 const fartInfo = {
   isRequire: true,
